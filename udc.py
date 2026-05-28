@@ -132,7 +132,42 @@ class UniversalDataConnector:
         except Exception as e:
             logger.error(f"Query failed on {source_name}: {e}")
             raise
+    # Add this to your udc.py
+
+def _create_sql_engine(self, config: DataSourceConfig):
+    """Create SQLAlchemy engine with Supabase SSL support"""
+    import urllib.parse
     
+    # Handle Supabase SSL requirement
+    ssl_mode = "require"  # Supabase requires SSL/TLS encryption
+    
+    if config.source_type == SourceType.POSTGRESQL:
+        # URL encode password to handle special characters (@, #, $, etc.)
+        encoded_password = urllib.parse.quote_plus(config.password)
+        
+        # Build connection string with SSL
+        connection_string = (
+            f"postgresql://{config.username}:{encoded_password}"
+            f"@{config.host}:{config.port}/{config.database}"
+            f"?sslmode={ssl_mode}"
+        )
+        
+        # For Supabase connection pooler (port 6543), add pgbouncer parameter
+        if config.port == 6543:
+            connection_string += "&pgbouncer=true"
+        
+        # Create engine with SSL configuration
+        return create_engine(
+            connection_string,
+            pool_size=5,
+            max_overflow=10,
+            pool_pre_ping=True,
+            connect_args={
+                "sslmode": "require",
+                "sslrootcert": None  # Accept Supabase self-signed cert
+            }
+        )
+    # ... rest of your existing code
     def list_tables(self, source_name: str) -> List[str]:
         """List all tables in a database source"""
         if source_name not in self.engines:

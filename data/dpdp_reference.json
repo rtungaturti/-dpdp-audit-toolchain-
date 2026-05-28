@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "section_9": {
+      "title": "Processing of personal data of children",
+      "content": "Section 9(1): Must obtain verifiable parental consent before processing child's data. Section 9(2): Prohibited activities include tracking, behavioral monitoring, targeted advertising, and processing detrimental to child's well-being.",
+      "key_requirements": [
+        "Verifiable parental consent",
+        "No tracking or behavioral monitoring",
+        "No targeted advertising",
+        "No processing detrimental to child's well-being"
+      ]
+    },
+    "rule_10": {
+      "title": "Verifiable consent of parent or guardian of child",
+      "content": "Specific requirements for obtaining and verifying parental consent for processing children's data.",
+      "key_requirements": [
+        "Identity verification of parent/guardian",
+        "Consent capture mechanism",
+        "Consent withdrawal mechanism"
+      ]
+    }
+  }
+}
